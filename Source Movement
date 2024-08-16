@@ -48,6 +48,7 @@ rp.RespectCanCollide = true
 
 workspace.Gravity = 0
 
+
 local function applyGravity(dT)
 	velocity -= Vector3.new(0, dT * gravity, 0)
 end
@@ -111,12 +112,6 @@ hrp.AlignOrientation.Enabled = true
 workspace.CurrentCamera.FieldOfView = 100
 
 local con = game["Run Service"].RenderStepped:Connect(function(dT)
-
-	for i,v in pairs(char:GetDescendants()) do
-		if v:IsA('BasePart') then
-			v.CanCollide = false
-		end
-	end
 	local grounded = groundCheck()
 	--velocity = hum.MoveDirection * speed + velocity.Y * Vector3.yAxis
 	if grounded then
@@ -154,13 +149,16 @@ local con = game["Run Service"].RenderStepped:Connect(function(dT)
 	end]]
 	--workspace.CurrentCamera.CameraSubject = collisionPart
 	--char:PivotTo(CFrame.new(collisionPart.Position))
+	game.Players.LocalPlayer.PlayerGui.ScreenGui.TextLabel.Text = bombAxes(velocity, Vector3.new(0, 1, 0)).Magnitude
 end)
 
-hum.Died:Wait()
-game.Debris:AddItem(collisionPart, 1)
+hum.Died:Connect(function()
+	game.Debris:AddItem(collisionPart, 1)
+end)
 
 --[[game.UserInputService.JumpRequest:Connect(function()
 	jumpQueue = true
 end)]]
 end
 game.Players.LocalPlayer.CharacterAdded:Connect(onChar)
+onChar(game.Players.LocalPlayer.Character)
