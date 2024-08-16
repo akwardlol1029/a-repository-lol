@@ -1,18 +1,3 @@
---// config settings
-getgenv().config = {
-    old_console = false,
-    old_plist = true,
-    old_graphics = false,
-    dev = false
-}
-
---// mods
-getgenv().mods = {
-    fps_counter = false,
-    built_in_silentre = false,
-    c00l_mode = false
-}
-
 --// load old loading screen before anything else
 loadstring(game:HttpGet("https://raw.githubusercontent.com/scotdotwtf/lua-projects/main/project%202016%3A%20Remastered/modules/old_load.lua"))()
 
