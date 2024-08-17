@@ -114,7 +114,7 @@ if config.old_graphics == true then
     local lighting = game:GetService("Lighting")
 
     --// hd killer
-    local ihateu = {"DepthOfFieldEffect", "SunRaysEffect", "BloomEffect",, "Atmosphere"}
+    local ihateu = {"DepthOfFieldEffect", "SunRaysEffect", "BloomEffect", "Atmosphere"}
     for i, v in pairs(lighting:GetChildren()) do
         for index, value in ipairs(ihateu) do
             if v:IsA(value) then
