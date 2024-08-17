@@ -1,0 +1,163 @@
+--[[
+// settings (must have on executor) //
+local speed = 18
+local airSpeed = 3
+local accel = 10
+local airAccel = 80
+local gravity = 45
+local jumpPower = 16.5
+local friction = 3
+--]]
+
+function onChar(c)
+
+local char = c
+local hum: Humanoid = char:WaitForChild('Humanoid')
+local hrp = char:WaitForChild('HumanoidRootPart')
+local cam = workspace.CurrentCamera
+
+char.PrimaryPart = hrp
+
+hum.PlatformStand = true
+
+local collisionPart = Instance.new('Part')
+collisionPart.Name = 'Collision'
+collisionPart.Size = Vector3.new(6,2,2)
+collisionPart.Shape = Enum.PartType.Cylinder
+collisionPart.Transparency = 1
+collisionPart.Orientation = Vector3.new(0,90,90)
+
+local collAtt = Instance.new('Attachment')
+local collAlignOrientation = Instance.new('AlignOrientation')
+collAlignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+collAlignOrientation.Attachment0 = collAtt
+
+collAtt.Parent = collisionPart
+collAlignOrientation.Parent = collisionPart
+collisionPart.Position = hrp.Position
+collisionPart.Parent = workspace
+
+local velocity = Vector3.new()
+
+hum.WalkSpeed = 0
+hum.JumpPower = 1
+local rp = RaycastParams.new()
+rp.FilterType = Enum.RaycastFilterType.Exclude
+rp.FilterDescendantsInstances = {char,collisionPart}
+rp.RespectCanCollide = true
+
+workspace.Gravity = 0
+
+
+local function applyGravity(dT)
+	velocity -= Vector3.new(0, dT * gravity, 0)
+end
+
+local function groundCheck()
+	local result = workspace:Raycast(collisionPart.Position, Vector3.new(0,-3.3,0),rp)
+	if result then
+		return true
+	end
+end
+
+local function bombAxes(v,a)
+	return v - v * a
+end
+
+local function accelerate(s,a,dT)
+	local hVel = bombAxes(velocity, Vector3.new(0,1,0))
+	local wishDir = hum.MoveDirection
+	local wishSpeed = wishDir.Magnitude * s
+	local currentSpeed = hVel:Dot(wishDir)
+	--print(currentSpeed)
+	local addSpeed = wishSpeed - currentSpeed
+	if addSpeed < 0 then
+		return
+	end
+	local accelSpeed = wishSpeed * a * dT
+	velocity += wishDir * accelSpeed
+end
+
+local function applyFriction(f,dT)
+	--[[if hVel.Magnitude <= 0 then
+		return
+	end]]
+	local hVel = bombAxes(velocity, Vector3.new(0,1,0))
+	local drop = f * dT
+	local newSpeed = hVel.Magnitude - drop
+	if newSpeed < 0 then
+		velocity -= hVel
+	else
+		local droppedVel = velocity - hVel * drop
+		velocity = droppedVel
+	end
+end
+
+local jumpQueue = false
+
+local weld = Instance.new('WeldConstraint')
+weld.Parent = collisionPart
+weld.Part0 = collisionPart
+weld.Part1 = hrp
+--hrp.Anchored = true
+hrp:PivotTo(collisionPart.CFrame * CFrame.Angles(0,0,math.rad(-90)))
+local ao = Instance.new('AlignOrientation')
+ao.Mode = Enum.OrientationAlignmentMode.OneAttachment
+ao.Parent = hrp
+local att = Instance.new('Attachment')
+att.Parent = hrp
+hrp.AlignOrientation.Attachment0 = att
+hrp.AlignOrientation.Enabled = true
+
+workspace.CurrentCamera.FieldOfView = 100
+
+local con = game["Run Service"].RenderStepped:Connect(function(dT)
+	local grounded = groundCheck()
+	--velocity = hum.MoveDirection * speed + velocity.Y * Vector3.yAxis
+	if grounded then
+		accelerate(speed, accel, dT)
+		applyFriction(friction, dT)
+	else
+		--print(1)
+		accelerate(airSpeed, airAccel, dT)
+		applyGravity(dT)
+		print(velocity.Y)
+	end
+	local result = workspace:Shapecast(collisionPart, velocity * dT, rp)
+	if result then
+		velocity -= result.Normal * velocity:Dot(result.Normal)
+		--print(velocity.Y)
+	end
+	if grounded then
+		jumpQueue = hum.Jump
+		if jumpQueue then
+			velocity = Vector3.new(0,jumpPower,0) + bombAxes(velocity, Vector3.yAxis)
+			--print(velocity.Y)
+		end
+	end
+	--jumpQueue = false
+	collisionPart.Velocity = velocity
+	--hrp.Velocity = velocity
+	local x,y,z = cam.CFrame:ToOrientation()
+	collisionPart.AlignOrientation.CFrame = CFrame.Angles(0,y + math.rad(90),math.rad(90))
+	hrp.AlignOrientation.CFrame = CFrame.Angles(0,y,0)
+	--collisionPart.CFrame = CFrame.new(collisionPart.Position)
+	--char:PivotTo(hrp.CFrame.Rotation * CFrame.new(collisionPart.Position))
+	
+	--[[if collisionPart:GetTouchingParts()[1] then
+		collisionPart.Position -= velocity * dT * 1.5
+	end]]
+	--workspace.CurrentCamera.CameraSubject = collisionPart
+	--char:PivotTo(CFrame.new(collisionPart.Position))
+end)
+
+hum.Died:Connect(function()
+	game.Debris:AddItem(collisionPart, 1)
+end)
+
+--[[game.UserInputService.JumpRequest:Connect(function()
+	jumpQueue = true
+end)]]
+end
+game.Players.LocalPlayer.CharacterAdded:Connect(onChar)
+onChar(game.Players.LocalPlayer.Character)
