@@ -1,6 +1,6 @@
 local char = game.Players.LocalPlayer.Character
 
-speed = 100
+--speed = 100 (copy on executor)
 
 local cf = char:GetPivot()
 
