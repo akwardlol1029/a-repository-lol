@@ -18,9 +18,9 @@ game.UserInputService.InputBegan:Connect(function(i, e)
                     local dT = task.wait()
                     --print(char.Humanoid.MoveDirection)
                     local x,y,z = workspace.CurrentCamera.CFrame:ToOrientation()
-                    cf = CFrame.new(cf.Position) * CFrame.Angles(x,0,0)
+                    cf = CFrame.new(cf.Position) * CFrame.Angles(workspace.CurrentCamera.CFrame.RightVector * x)
                     cf *= CFrame.new(char.Humanoid.MoveDirection * speed * dT)
-                    cf *= CFrame.Angles(0,y,z)
+                    cf *= CFrame.Angles(workspace.CurrentCamera.CFrame.LookVector * z) * CFrame.Angles(workspace.CurrentCamera.CFrame.UpVector * y)
                     char:PivotTo(cf)
                 end
             end
