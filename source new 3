@@ -1,4 +1,4 @@
--[[
+--[[
 // settings (must have on executor) //
 local speed = 18
 local airSpeed = 3
