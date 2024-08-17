@@ -16,9 +16,11 @@ game.UserInputService.InputBegan:Connect(function(i, e)
             if on then
                 while (char.Humanoid.Health > 0) and on do
                     local dT = task.wait()
-                    print(char.Humanoid.MoveDirection)
-                    cf = CFrame.new(cf.Position) * workspace.CurrentCamera.CFrame.Rotation
+                    --print(char.Humanoid.MoveDirection)
+                    local x,y,z = workspace.CurrentCamera.CFrame:ToOrientation()
+                    cf = CFrame.new(cf.Position) * CFrame.Angles(x,0,0)
                     cf *= CFrame.new(char.Humanoid.MoveDirection * speed * dT)
+                    cf *= CFrame.Angles(0,y,z)
                     char:PivotTo(cf)
                 end
             end
