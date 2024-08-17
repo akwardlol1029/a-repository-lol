@@ -24,7 +24,7 @@ game.UserInputService.InputBegan:Connect(function(i, e)
                     cf = CFrame.new(cf.Position) * CFrame.Angles(rv.X, rv.Y, rv.Z)
                     cf *= CFrame.new(char.Humanoid.MoveDirection * speed * dT)
                     cf *= CFrame.Angles(lv.X, lv.Y, lv.Z) * CFrame.Angles(uv.X, uv.Y, uv.Z)
-                    char:PivotTo(CFrame.new(cf.Position) * workspace.CurrentCamera.CFrame.Rotation))
+                    char:PivotTo(CFrame.new(cf.Position) * workspace.CurrentCamera.CFrame.Rotation)
                 end
             end
         end
