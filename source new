@@ -156,6 +156,8 @@ end)
 
 hum.Died:Connect(function()
 	game.Debris:AddItem(collisionPart, 1)
+	task.wait(1)
+	con:Disconnect()
 end)
 
 --[[game.UserInputService.JumpRequest:Connect(function()
@@ -164,3 +166,4 @@ end)]]
 end
 game.Players.LocalPlayer.CharacterAdded:Connect(onChar)
 onChar(game.Players.LocalPlayer.Character)
+end)
