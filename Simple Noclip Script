@@ -1,12 +1,12 @@
 local char = game.Players.LocalPlayer.Character
 
---speed = 100 (copy in executor)
+--speed = 100 (copy on executor)
 
 local cf = char:GetPivot()
 
-print(char.Humanoid.Health)
-
 local on = false
+
+print('noclip script executed')
 
 game.UserInputService.InputBegan:Connect(function(i, e)
     if not e then
@@ -17,7 +17,7 @@ game.UserInputService.InputBegan:Connect(function(i, e)
                 while (char.Humanoid.Health > 0) and on do
                     local dT = task.wait()
                     cf = CFrame.new(cf.Position) * workspace.CurrentCamera.CFrame.Rotation
-                    cf *= char.Humanoid.MoveDirection * speed
+                    cf *= CFrame.new(char.Humanoid.MoveDirection * speed)
                     char:PivotTo(cf)
                 end
             end
