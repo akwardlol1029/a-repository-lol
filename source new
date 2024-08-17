@@ -52,10 +52,12 @@ workspace.Gravity = 0
 
 local function applyGravity(dT)
 	velocity -= Vector3.new(0, dT * gravity, 0)
+	print(velocity.Y)
 end
 
 local function groundCheck()
 	local result = workspace:Raycast(collisionPart.Position, Vector3.new(0,-3.3,0),rp)
+	print(result)
 	if result then
 		return true
 	end
