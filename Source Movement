@@ -149,7 +149,6 @@ local con = game["Run Service"].RenderStepped:Connect(function(dT)
 	end]]
 	--workspace.CurrentCamera.CameraSubject = collisionPart
 	--char:PivotTo(CFrame.new(collisionPart.Position))
-	--game.Players.LocalPlayer.PlayerGui.ScreenGui.TextLabel.Text = bombAxes(velocity, Vector3.new(0, 1, 0)).Magnitude
 end)
 
 hum.Died:Connect(function()
