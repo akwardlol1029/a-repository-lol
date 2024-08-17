@@ -30,6 +30,7 @@ collisionPart.Orientation = Vector3.new(0,90,90)
 local collAtt = Instance.new('Attachment')
 local collAlignOrientation = Instance.new('AlignOrientation')
 collAlignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+collAlignOrientation.Name = 'AlignOrientation'
 collAlignOrientation.Attachment0 = collAtt
 
 collAtt.Parent = collisionPart
@@ -139,8 +140,8 @@ local con = game["Run Service"].RenderStepped:Connect(function(dT)
 	collisionPart.Velocity = velocity
 	--hrp.Velocity = velocity
 	local x,y,z = cam.CFrame:ToOrientation()
-	collisionPart.AlignOrientation.CFrame = CFrame.Angles(0,y + math.rad(90),math.rad(90))
-	hrp.AlignOrientation.CFrame = CFrame.Angles(0,y,0)
+	collAtt.CFrame = CFrame.Angles(0,y + math.rad(90),math.rad(90))
+	ao.CFrame = CFrame.Angles(0,y,0)
 	--collisionPart.CFrame = CFrame.new(collisionPart.Position)
 	--char:PivotTo(hrp.CFrame.Rotation * CFrame.new(collisionPart.Position))
 	
