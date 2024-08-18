@@ -9,6 +9,8 @@ game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
 local cg = game.CoreGui
 local tba = cg.TopBarApp
 
+tba.ResetOnSpawn = false
+
 local topbarframe = tba.TopBarFrame
 local lf = topbarframe.LeftFrame
 local rf = topbarframe.RightFrame
