@@ -15,9 +15,9 @@ local topbarframe = tba.TopBarFrame
 local lf = topbarframe.LeftFrame
 local rf = topbarframe.RightFrame
 
-local menuiconframe = lf.MenuIcon
-local menubg: ImageButton = menuiconframe.Background
-local menuicon = menubg.Icon
+menuiconframe = lf.MenuIcon
+menubg = menuiconframe.Background
+menuicon = menubg.Icon
 
 local chaticonframe = lf.ChatIcon
 local chatbg = chaticonframe.Background
