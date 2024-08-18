@@ -145,7 +145,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
 	cellnumber = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) and 2) or 1
 
 	backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame['cell '..tostring(cellnumber)]
-	backpackicon: ImageButton = backpackiconframe.Cell
+	backpackicon = backpackiconframe.Cell
 end)
 
 healthcontainer.Size = UDim2.new(1, -14,0, 3)
