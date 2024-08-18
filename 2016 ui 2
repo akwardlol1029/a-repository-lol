@@ -92,7 +92,25 @@ end)
 
 game["Run Service"].RenderStepped:Connect(function()
 	tba.LegacyCloseMenu.CloseMenuButton.ImageTransparency = 1
-	chaticon.Image = game.CoreGui.ExperienceChat.appLayout.chatWindow.Visible and "rbxasset://textures/ui/Chat/ChatDown.png" or "rbxasset://textures/ui/Chat/Chat.png"
+	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) then
+		local possiblechat = game.CoreGui:FindFirstChild("ExperienceChat") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("Chat")
+		if possiblechat then
+			local window = nil
+			if possiblechat.Name == "ExperienceChat" then
+				window = possiblechat:FindFirstChild("appLayout")
+				if window then
+					window = window:FindFirstChild("chatWindow")
+				else
+					window = possiblechat:FindFirstChild("Frame")
+				end
+			else
+				window = possiblechat:FindFirstChild("Frame")
+			end
+			if window then
+				chaticon.Image = window.Visible and "rbxasset://textures/ui/Chat/ChatDown.png" or "rbxasset://textures/ui/Chat/Chat.png"
+			end
+		end
+	end
 	backpackicon.Image = game.CoreGui.RobloxGui.Backpack.Inventory.Visible and "rbxasset://textures/ui/Backpack/Backpack_Down.png" or "rbxasset://textures/ui/Backpack/Backpack.png"
 	menubg.StateOverlay.ImageTransparency = 1
 	chatbg.StateOverlay.ImageTransparency = 1
@@ -102,6 +120,7 @@ game["Run Service"].RenderStepped:Connect(function()
 	backpackicon.ImageRectOffset = Vector2.zero
 	game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
 end)
+
 
 backpackiconframe.Parent = lf
 backpackiconframe.Position = UDim2.fromOffset(100,0)
