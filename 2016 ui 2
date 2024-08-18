@@ -118,7 +118,12 @@ game["Run Service"].RenderStepped:Connect(function()
 	healthcontainer.Visible = true
 	backpackicon.ImageRectSize = Vector2.zero
 	backpackicon.ImageRectOffset = Vector2.zero
-	game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
+	local s, e = pcall(function()
+		game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
+	end)
+	if not s then
+		warn(e)
+	end
 end)
 
 
