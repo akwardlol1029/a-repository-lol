@@ -94,19 +94,33 @@ game:GetService('GuiService').MenuOpened:Connect(function()
 	menuicon.Image = "rbxasset://textures/ui/Menu/HamburgerDown.png"
 end)
 
-game["Run Service"].RenderStepped:Connect(function()
-	backpackiconframe.Parent = lf
-	backpackiconframe.Position = UDim2.fromOffset(100,0)
-	backpackiconframe.Size = UDim2.fromOffset(50,36)
+local wasoff = false
 
-	backpackicon.Position = UDim2.new(.5, -11, 0.5, -14)
-	backpackicon.Size = UDim2.fromOffset(22,28)
-	backpackicon.Image = "rbxasset://textures/ui/Backpack/Backpack.png"
-	backpackicon:ClearAllChildren()
-	backpackicon.ImageColor3 = Color3.new(1,1,1)
-	backpackicon.ImageTransparency = 0
-	backpackicon.ImageRectSize = Vector2.zero
-	backpackicon.ImageRectOffset = Vector2.zero
+game["Run Service"].RenderStepped:Connect(function()
+	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Backpack) then
+		if wasoff then
+			wasoff = false
+			cellnumber = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) and 2) or 1
+			print(wasoff)
+			backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:WaitForChild('cell '..tostring(cellnumber))
+			print(backpackiconframe:GetFullName())
+			backpackicon = backpackiconframe.Cell
+		end
+		backpackiconframe.Parent = lf
+		backpackiconframe.Position = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) and UDim2.fromOffset(100,0)) or UDim2.fromOffset(50,0)
+		backpackiconframe.Size = UDim2.fromOffset(50,36)
+
+		backpackicon.Position = UDim2.new(.5, -11, 0.5, -14)
+		backpackicon.Size = UDim2.fromOffset(22,28)
+		backpackicon.Image = game.CoreGui.RobloxGui.Backpack.Inventory.Visible and "rbxasset://textures/ui/Backpack/Backpack_Down.png" or "rbxasset://textures/ui/Backpack/Backpack.png"
+		backpackicon:ClearAllChildren()
+		backpackicon.ImageColor3 = Color3.new(1,1,1)
+		backpackicon.ImageTransparency = 0
+		backpackicon.ImageRectSize = Vector2.zero
+		backpackicon.ImageRectOffset = Vector2.zero
+	else
+		wasoff = true
+	end
 
 	tba.LegacyCloseMenu.CloseMenuButton.ImageTransparency = 1
 	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) then
@@ -129,13 +143,10 @@ game["Run Service"].RenderStepped:Connect(function()
 			end
 		end
 	end
-	backpackicon.Image = game.CoreGui.RobloxGui.Backpack.Inventory.Visible and "rbxasset://textures/ui/Backpack/Backpack_Down.png" or "rbxasset://textures/ui/Backpack/Backpack.png"
 	menubg.StateOverlay.ImageTransparency = 1
 	chatbg.StateOverlay.ImageTransparency = 1
 	topbarframe.Visible = true
 	healthcontainer.Visible = true
-	backpackicon.ImageRectSize = Vector2.zero
-	backpackicon.ImageRectOffset = Vector2.zero
 	local s, e = pcall(function()
 		game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
 	end)
@@ -144,7 +155,7 @@ end)
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
 	cellnumber = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) and 2) or 1
 
-	backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame['cell '..tostring(cellnumber)]
+	backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:WaitForChild('cell '..tostring(cellnumber))
 	backpackicon = backpackiconframe.Cell
 end)
 
