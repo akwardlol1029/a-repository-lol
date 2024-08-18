@@ -25,8 +25,8 @@ local chaticon = chatbg.Icon
 
 local cellnumber = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) and 2) or 1
 
-local backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame['cell '..tostring(cellnumber)]
-local backpackicon: ImageButton = backpackiconframe.Cell
+backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame['cell '..tostring(cellnumber)]
+backpackicon = backpackiconframe.Cell
 
 local healthcontainer = rf.HealthBar
 local healthbar = healthcontainer.HealthBar
