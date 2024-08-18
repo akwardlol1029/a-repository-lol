@@ -95,6 +95,19 @@ game:GetService('GuiService').MenuOpened:Connect(function()
 end)
 
 game["Run Service"].RenderStepped:Connect(function()
+	backpackiconframe.Parent = lf
+	backpackiconframe.Position = UDim2.fromOffset(100,0)
+	backpackiconframe.Size = UDim2.fromOffset(50,36)
+
+	backpackicon.Position = UDim2.new(.5, -11, 0.5, -14)
+	backpackicon.Size = UDim2.fromOffset(22,28)
+	backpackicon.Image = "rbxasset://textures/ui/Backpack/Backpack.png"
+	backpackicon:ClearAllChildren()
+	backpackicon.ImageColor3 = Color3.new(1,1,1)
+	backpackicon.ImageTransparency = 0
+	backpackicon.ImageRectSize = Vector2.zero
+	backpackicon.ImageRectOffset = Vector2.zero
+
 	tba.LegacyCloseMenu.CloseMenuButton.ImageTransparency = 1
 	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) then
 		local possiblechat = game.CoreGui:FindFirstChild("ExperienceChat") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("Chat")
@@ -127,20 +140,6 @@ game["Run Service"].RenderStepped:Connect(function()
 		game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
 	end)
 end)
-
-
-backpackiconframe.Parent = lf
-backpackiconframe.Position = UDim2.fromOffset(100,0)
-backpackiconframe.Size = UDim2.fromOffset(50,36)
-
-backpackicon.Position = UDim2.new(.5, -11, 0.5, -14)
-backpackicon.Size = UDim2.fromOffset(22,28)
-backpackicon.Image = "rbxasset://textures/ui/Backpack/Backpack.png"
-backpackicon:ClearAllChildren()
-backpackicon.ImageColor3 = Color3.new(1,1,1)
-backpackicon.ImageTransparency = 0
-backpackicon.ImageRectSize = Vector2.zero
-backpackicon.ImageRectOffset = Vector2.zero
 
 healthcontainer.Size = UDim2.new(1, -14,0, 3)
 healthcontainer.Position = UDim2.new(0, 7,1, -9)
