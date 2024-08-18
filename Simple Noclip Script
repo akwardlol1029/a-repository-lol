@@ -15,6 +15,7 @@ game.UserInputService.InputBegan:Connect(function(i, e)
             on = not on
             if on then
                 while (char.Humanoid.Health > 0) and on do
+                    char.HumanoidRootPart.Velocity = Vector3.zero
                     local dT = task.wait()
                     --print(char.Humanoid.MoveDirection)
                     local x,y,z = workspace.CurrentCamera.CFrame:ToOrientation()
