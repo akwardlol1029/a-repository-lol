@@ -121,9 +121,6 @@ game["Run Service"].RenderStepped:Connect(function()
 	local s, e = pcall(function()
 		game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
 	end)
-	if not s then
-		warn(e)
-	end
 end)
 
 
