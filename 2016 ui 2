@@ -101,6 +101,7 @@ game["Run Service"].RenderStepped:Connect(function()
 				if window then
 					window = window:FindFirstChild("chatWindow")
 				else
+					possiblechat = game.Players.LocalPlayer.PlayerGui:FindFirstChild("Chat")
 					window = possiblechat:FindFirstChild("Frame")
 				end
 			else
