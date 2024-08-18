@@ -1,0 +1,37 @@
+local char = game.Players.LocalPlayer.Character
+
+--speed = 100 (copy on executor)
+
+local cf = char:GetPivot()
+
+local on = false
+
+print('noclip script executed')
+
+game.UserInputService.InputBegan:Connect(function(i, e)
+    if not e then
+        if i.KeyCode == Enum.KeyCode.E then
+            cf = char:GetPivot()
+            on = not on
+            if on then
+                while (char.Humanoid.Health > 0) and on do
+                    char.HumanoidRootPart.Velocity = Vector3.zero
+                    local dT = task.wait()
+                    --print(char.Humanoid.MoveDirection)
+                    local x,y,z = workspace.CurrentCamera.CFrame:ToOrientation()
+                    local uv = workspace.CurrentCamera.CFrame.UpVector * y
+                    local rv = workspace.CurrentCamera.CFrame.RightVector * x
+                    local lv = workspace.CurrentCamera.CFrame.LookVector * z
+                    cf = CFrame.new(cf.Position) * CFrame.Angles(rv.X, rv.Y, rv.Z)
+                    cf *= CFrame.new(char.Humanoid.MoveDirection * speed * dT)
+                    cf *= CFrame.Angles(lv.X, lv.Y, lv.Z) * CFrame.Angles(uv.X, uv.Y, uv.Z)
+                    char:PivotTo(CFrame.new(cf.Position) * workspace.CurrentCamera.CFrame.Rotation)
+                end
+            end
+        end
+    end
+end)
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(c)
+    char = c
+end)
