@@ -106,7 +106,15 @@ game["Run Service"].RenderStepped:Connect(function()
 			print(backpackiconframe:GetFullName())
 			backpackicon = backpackiconframe.Cell
 		end
-		backpackiconframe.Parent = lf
+		local s = pcall(function()
+			backpackiconframe.Parent = lf
+		end)
+		if not s then
+			cellnumber = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) and 2) or 1
+			backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:WaitForChild('cell '..tostring(cellnumber))
+			backpackicon = backpackiconframe.Cell
+			backpackiconframe.Parent = lf
+		end
 		backpackiconframe.Position = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) and UDim2.fromOffset(100,0)) or UDim2.fromOffset(50,0)
 		backpackiconframe.Size = UDim2.fromOffset(50,36)
 
