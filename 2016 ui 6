@@ -1,0 +1,474 @@
+task.wait(.2)
+
+warn('executed 2016 ui fr')
+
+local bc_storage = {
+	"rbxassetid://18989020969",
+	"rbxassetid://18989021207",
+	"rbxassetid://18989021430"
+}
+
+local cg = game.CoreGui
+local tba = cg.TopBarApp
+
+tba.ResetOnSpawn = false
+
+local topbarframe = tba.TopBarFrame
+local lf = topbarframe.LeftFrame
+local rf = topbarframe.RightFrame
+
+menuiconframe = lf.MenuIcon
+menubg = menuiconframe.Background
+menuicon = menubg.Icon
+
+local chaticonframe = lf.ChatIcon
+local chatbg = chaticonframe.Background
+local chaticon = chatbg.Icon
+
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, false)
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+
+if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Backpack) then
+	cellnumber = 1
+	if not game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) then print(1) cellnumber = 1 end
+	
+	backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber))
+	if not backpackiconframe then backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber == 2 and 1 or 2)) end
+	backpackicon = backpackiconframe.Cell
+else
+	cellnumber = nil
+	backpackiconframe = nil
+	backpackicon = nil
+end
+
+local healthcontainer = rf.HealthBar
+local healthbar = healthcontainer.HealthBar
+local fill = healthbar.Fill
+
+local username = Instance.new('TextLabel')
+
+topbarframe.BackgroundColor3 = Color3.fromRGB(31,31,31)
+topbarframe.BackgroundTransparency = 0.5
+
+lf.Layout:Destroy()
+lf.Position = UDim2.fromScale(0,0)
+
+menuiconframe.Size = UDim2.fromOffset(50,36)
+menuiconframe.Position = UDim2.fromScale(0,0)
+menuiconframe.AnchorPoint = Vector2.zero
+
+menubg.ImageTransparency = 1
+menubg.AnchorPoint = Vector2.zero
+menubg.Position = UDim2.new(0.5, -16,0.5, -12)
+menubg.Size = UDim2.new(0,32,0,25)
+
+menubg.AutoButtonColor = false
+
+local menuopen = false
+
+chatbg.MouseButton1Click:Connect(function()
+	menuopen = not menuopen
+end)
+
+menuicon.Image = "rbxasset://textures/ui/Menu/Hamburger.png"
+menuicon.Size = UDim2.fromScale(1,1)
+
+chaticonframe.Size = UDim2.fromOffset(50,36)
+chaticonframe.Position = UDim2.fromOffset(50,0)
+chaticonframe.AnchorPoint = Vector2.zero
+
+chatbg.ImageTransparency = 1
+chatbg.AnchorPoint = Vector2.zero
+chatbg.Position = UDim2.new(0.5, -14,0.5, -13)
+chatbg.Size = UDim2.fromOffset(28,27)
+
+chatbg.AutoButtonColor = false
+
+chaticon.Image = "rbxasset://textures/ui/Chat/Chat.png"
+chaticon.Size = UDim2.fromScale(1,1)
+
+local open = true
+local wasopen = true
+
+chatbg.MouseButton1Click:Connect(function()
+	open = not open
+end)
+
+game:GetService('GuiService').MenuClosed:Connect(function()
+	if wasopen then
+		open = true
+	end
+	menuicon.Image = "rbxasset://textures/ui/Menu/Hamburger.png"
+end)
+
+game:GetService('GuiService').MenuOpened:Connect(function()
+	wasopen = open
+	open = false
+	menuicon.Image = "rbxasset://textures/ui/Menu/HamburgerDown.png"
+end)
+
+local wasoff = false
+
+game["Run Service"].RenderStepped:Connect(function()
+    game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, false)
+	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Backpack) then
+		if wasoff then
+			wasoff = false
+			cellnumber = 1
+			if not game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) then cellnumber = 1 end
+			--print(wasoff)
+			backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber))
+            if not backpackiconframe then backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber == 2 and 1 or 2)) end
+			--print(backpackiconframe:GetFullName())
+			backpackicon = backpackiconframe.Cell
+		end
+		local s = pcall(function()
+			backpackiconframe.Parent = lf
+		end)
+		if not s then
+			cellnumber = 1
+			if not game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) then cellnumber = 1 end
+			--print(cellnumber)
+			backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber))
+            if not backpackiconframe then backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber == 2 and 1 or 2)) end
+			backpackicon = backpackiconframe.Cell
+			backpackiconframe.Parent = lf
+		end
+		backpackiconframe.Position = (game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) and UDim2.fromOffset(100,0)) or UDim2.fromOffset(50,0)
+		backpackiconframe.Size = UDim2.fromOffset(50,36)
+
+		backpackicon.Position = UDim2.new(.5, -11, 0.5, -14)
+		backpackicon.Size = UDim2.fromOffset(22,28)
+		backpackicon.Image = game.CoreGui.RobloxGui.Backpack.Inventory.Visible and "rbxasset://textures/ui/Backpack/Backpack_Down.png" or "rbxasset://textures/ui/Backpack/Backpack.png"
+		backpackicon:ClearAllChildren()
+		backpackicon.ImageColor3 = Color3.new(1,1,1)
+		backpackicon.ImageTransparency = 0
+		backpackicon.ImageRectSize = Vector2.zero
+		backpackicon.ImageRectOffset = Vector2.zero
+	else
+		wasoff = true
+	end
+
+	tba.LegacyCloseMenu.CloseMenuButton.ImageTransparency = 1
+	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) then
+		local possiblechat = game.CoreGui:FindFirstChild("ExperienceChat") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("Chat")
+		if possiblechat then
+			local window = nil
+			if possiblechat.Name == "ExperienceChat" then
+				window = possiblechat:FindFirstChild("appLayout")
+				if window then
+					window = window:FindFirstChild("chatWindow")
+				else
+					possiblechat = game.Players.LocalPlayer.PlayerGui:FindFirstChild("Chat")
+					window = possiblechat:FindFirstChild("Frame")
+				end
+			else
+				window = possiblechat:FindFirstChild("Frame")
+			end
+			if window then
+				chaticon.Image = window.Visible and "rbxasset://textures/ui/Chat/ChatDown.png" or "rbxasset://textures/ui/Chat/Chat.png"
+			end
+		end
+	end
+	menubg.StateOverlay.ImageTransparency = 1
+	chatbg.StateOverlay.ImageTransparency = 1
+	topbarframe.Visible = true
+	healthcontainer.Visible = true
+	local s, e = pcall(function()
+		game.CoreGui.RobloxGui.SettingsClippingShield.SettingsShield.Frame.Visible = false
+	end)
+end)
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+	if game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Backpack) then
+		cellnumber = 2
+		if not game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu) then print(1) cellnumber = 1 end
+		
+		backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber))
+		if not backpackiconframe then backpackiconframe = rf.MoreMenu.MoreMenuContainer.ContextualMenu.PositionFrame.BaseMenu.ClippingFrame.ScrollingFrame:FindFirstChild('cell '..tostring(cellnumber == 2 and 1 or 2)) end
+		backpackicon = backpackiconframe.Cell
+	else
+		cellnumber = nil
+		backpackiconframe = nil
+		backpackicon = nil
+	end
+end)
+
+healthcontainer.Size = UDim2.new(1, -14,0, 3)
+healthcontainer.Position = UDim2.new(0, 7,1, -9)
+
+healthbar.Position = UDim2.new(0,0,0,0)
+healthbar.Size = UDim2.new(1,0,1,0)
+healthbar.Image = "rbxassetid://3337834830"
+
+fill.Position = UDim2.fromScale(0,0)
+fill.Image = "rbxassetid://3337834830"
+
+username.Font = Enum.Font.SourceSansBold
+username.Text = game.Players.LocalPlayer.Name
+username.Position = UDim2.fromOffset(7,-2)
+username.Size = UDim2.new(1,-14,0,22)
+username.TextSize = 14
+username.TextStrokeTransparency = 1
+username.TextColor3 = Color3.new(1,1,1)
+username.TextXAlignment = Enum.TextXAlignment.Left
+username.TextYAlignment = Enum.TextYAlignment.Bottom
+username.BackgroundTransparency = 1
+username.Parent = rf
+
+rf.Position = UDim2.fromScale(1,0)
+rf.Size = UDim2.new(0, 170,1, 0)
+rf.AnchorPoint = Vector2.new(1,0)
+rf.Layout:Destroy()
+rf.MoreMenu.Visible = false
+
+local PlayerListContainer = Instance.new("Frame", tba)
+local ScrollList = Instance.new("ScrollingFrame", PlayerListContainer)
+local EPadding = Instance.new("UIPadding", ScrollList)
+local List = Instance.new("UIListLayout", ScrollList)
+
+PlayerListContainer.Name = "PlayerListContainer"
+PlayerListContainer.AnchorPoint = Vector2.new(1,0)
+PlayerListContainer.BackgroundTransparency = 1.000
+PlayerListContainer.Position = UDim2.new(1, 0,0,38)
+PlayerListContainer.Size = UDim2.new(0, 170,0.5, 0)
+
+ScrollList.Name = "ScrollList"
+ScrollList.Size = UDim2.new(1, 0, 1, 0)
+ScrollList.Position = UDim2.new(0, 0, 0, 0)
+ScrollList.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ScrollList.ClipsDescendants = true
+ScrollList.BackgroundTransparency = 1
+ScrollList.BorderSizePixel = 0
+ScrollList.ScrollBarThickness = 0
+ScrollList.CanvasSize = UDim2.new(0, 0, 2, 0)
+
+List.SortOrder = Enum.SortOrder.LayoutOrder
+List.VerticalAlignment = Enum.VerticalAlignment.Top
+List.HorizontalAlignment = Enum.HorizontalAlignment.Right
+List.Padding = UDim.new(0, 2)
+
+EPadding.PaddingBottom = UDim.new(0, 22.4)
+
+local function addplr(name, is_bc, is_friend, is_dev)
+	local Player = Instance.new("TextButton", ScrollList)
+	local PPadding = Instance.new("UIPadding", Player)
+	local IgnorePaddingFrame = Instance.new("Frame", Player)
+	local Icon = Instance.new("ImageLabel", IgnorePaddingFrame)
+
+	Player.Name = name
+	Player.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+	Player.BackgroundTransparency = 0.500
+	Player.BorderSizePixel = 0
+	Player.Size = UDim2.new(0, 170, 0, 24)
+	Player.AutoButtonColor = false
+	Player.TextSize = 14
+	Player.Font = Enum.Font.SourceSans
+	Player.TextXAlignment = Enum.TextXAlignment.Left
+	Player.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Player.Text = name
+
+	PPadding.PaddingLeft = UDim.new(0, 23)
+
+	IgnorePaddingFrame.Name = "IgnorePaddingFrame"
+	IgnorePaddingFrame.BackgroundTransparency = 1
+	IgnorePaddingFrame.Size = UDim2.new(1, 0, 1, 0)
+
+	Icon.Name = "Icon"
+	Icon.BackgroundTransparency = 1.000
+	Icon.BorderSizePixel = 0
+	Icon.Position = UDim2.new(0, -19, 0.02, 4)
+	Icon.Size = UDim2.new(0, 16, 0, 16)
+
+	if is_bc then
+		local randobc = bc_storage[math.random(1,#bc_storage)]
+		Icon.Image = randobc
+	end
+
+	if is_dev then
+		Icon.Image = "rbxasset://textures/ui/icon_placeowner.png"
+	end
+
+	if is_friend then
+		Icon.Image = "rbxasset://textures/ui/icon_friends_16.png"
+	end
+
+	local open = false
+
+	Player.MouseButton1Click:Connect(function()
+		if open == false then
+
+			local ScrollDecend = ScrollList:GetDescendants()
+			for i, v in pairs(ScrollDecend) do
+				if v.Name == "PlayerControlsHolder" then
+					v:Destroy()
+				end
+			end
+
+			for i, v in pairs(ScrollDecend) do
+				if v:IsA("TextButton") then
+					v.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+				end
+			end
+
+			local PlayerControlsHolder = Instance.new("Frame", Player)
+			local Temp_List = Instance.new("UIListLayout", PlayerControlsHolder)
+			local FriendButton = Instance.new("TextButton", PlayerControlsHolder)
+			local ReportButton = Instance.new("TextButton", PlayerControlsHolder)
+			--// fix padding
+			local FixPadding1 = Instance.new("UIPadding", FriendButton)
+			local FixPadding2 = Instance.new("UIPadding", ReportButton)
+
+			FixPadding1.PaddingLeft = UDim.new(0, 36)
+			FixPadding2.PaddingLeft = UDim.new(0, 36)
+
+			PlayerControlsHolder.Name = "PlayerControlsHolder"
+			PlayerControlsHolder.BackgroundTransparency = 1
+			PlayerControlsHolder.Size = UDim2.new(1, 0, 1, 0)
+			PlayerControlsHolder.Position = UDim2.new(-1, -25, 0, 0)
+			PlayerControlsHolder.Visible = true
+
+			FriendButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+			FriendButton.BackgroundTransparency = 0.500
+			FriendButton.BorderSizePixel = 0
+			FriendButton.Size = UDim2.new(0, 170, 0, 24)
+			FriendButton.AutoButtonColor = true
+			FriendButton.TextSize = 14
+			FriendButton.Font = Enum.Font.SourceSans
+			FriendButton.TextXAlignment = Enum.TextXAlignment.Left
+			FriendButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+			FriendButton.Text = "Send a friend request"
+
+			ReportButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+			ReportButton.BackgroundTransparency = 0.500
+			ReportButton.BorderSizePixel = 0
+			ReportButton.Size = UDim2.new(0, 170, 0, 24)
+			ReportButton.AutoButtonColor = true
+			ReportButton.TextSize = 14
+			ReportButton.Font = Enum.Font.SourceSans
+			ReportButton.TextXAlignment = Enum.TextXAlignment.Left
+			ReportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+			ReportButton.Text = "Report abuse"
+
+			Temp_List.SortOrder = Enum.SortOrder.LayoutOrder
+			Temp_List.VerticalAlignment = Enum.VerticalAlignment.Top
+			Temp_List.HorizontalAlignment = Enum.HorizontalAlignment.Right
+			Temp_List.Padding = UDim.new(0, 2)
+
+			Player.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+
+			spawn(function()
+				FriendButton.MouseButton1Click:Connect(function()
+					game.Players.LocalPlayer:RequestFriendship(game.Players:FindFirstChild(Player.Text))
+					if Player:FindFirstChild("PlayerControlsHolder") then
+						Player:FindFirstChild("PlayerControlsHolder"):Destroy()
+						Player.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+					end
+					open = false
+				end)
+			end)
+
+			open = true
+		elseif open == true then
+			Player.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+			open = false
+			if Player:FindFirstChild("PlayerControlsHolder") then
+				Player:FindFirstChild("PlayerControlsHolder"):Destroy()
+			end
+		end
+	end)
+end
+
+local function removeplrfromlist(name)
+	local plistchildren = ScrollList:GetChildren()
+	for i, v in pairs(plistchildren) do
+		if v.Name == name then
+			v:Destroy()
+		end
+	end
+end
+
+for i, v in	 pairs(game:GetService("Players"):GetPlayers()) do
+	local function isbc_func()
+		if v.MembershipType == Enum.MembershipType.Premium then
+			return true
+		end
+	end
+
+	local function isdev_func()
+		if v.UserId == game.CreatorId then
+			return true
+		end
+	end
+
+	local function isfriend_func()
+		if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+			return true
+		end
+	end
+
+	addplr(v.Name, isbc_func(), isfriend_func(), isdev_func())
+end
+
+game:GetService("Players").PlayerAdded:Connect(function(player)
+	local function isbc_func()
+		if player.MembershipType == Enum.MembershipType.Premium then
+			return true
+		end
+	end
+
+	local function isdev_func()
+		if player.UserId == game.CreatorId then
+			return true
+		end
+	end
+
+	local function isfriend_func()
+		if player:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+			return true
+		end
+	end
+
+	addplr(player.Name, isbc_func(), isfriend_func(), isdev_func())
+end)
+
+game:GetService("Players").PlayerRemoving:Connect(function(player)
+	removeplrfromlist(player.Name)
+end)
+
+game.UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+	if input.KeyCode == Enum.KeyCode.Tab then
+		if PlayerListContainer.Visible == true then
+			PlayerListContainer.Visible = false
+		else
+			PlayerListContainer.Visible = true
+		end
+	end
+end)
+
+--[[game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    task.wait(.2)
+    for i,v in pairs(game:GetDescendants()) do
+        if not v:FindFirstAncestor('CoreGui') then
+            pcall(function()
+		if not v.Font == Enum.Font.SourceSansBold then
+                	v.Font = Enum.Font.SourceSans
+			print(1)
+		end
+            end)
+        end
+    end
+end)
+
+task.wait(.2)
+    for i,v in pairs(game:GetDescendants()) do
+        if not v:FindFirstAncestor('CoreGui') then
+            pcall(function()
+		if not v.Font == Enum.Font.SourceSansBold then
+                	v.Font = Enum.Font.SourceSans
+			print(1)
+		end
+            end)
+        end
+    end]]
