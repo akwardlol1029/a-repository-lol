@@ -1,5 +1,4 @@
---[[
-// settings (must have on executor) //
+// settings //
 local speed = 18
 local airSpeed = 3
 local accel = 10
@@ -7,7 +6,6 @@ local airAccel = 80
 local gravity = 45
 local jumpPower = 16.5
 local friction = 3
---]]
 
 function onChar(c)
 
